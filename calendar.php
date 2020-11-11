@@ -60,6 +60,12 @@
             font-size: 10px;
             color: #000;
         }
+        
+        .mark{
+            color: #F00;
+            opacity: 0.8;
+            background: ;
+        }
        
 
     </style>
@@ -178,7 +184,10 @@ $getDate= date("Y年m月d日");
 <div>
 <span  class="today">今天是<?=$getDate;?></span>
 </div>
-<hr>
+
+<?php
+echo "<br>";
+?>
 
 <div class='justify-content-between d-flex m-auto' style="width:750px">
 <button type="button" class="btn btn-light btn-sm"><a href="calendar.php?year=<?=$prevYear;?>&month=<?=$prevMonth;?>">上一個月</a></button>
@@ -186,7 +195,9 @@ $getDate= date("Y年m月d日");
 <button type="button" class="btn btn-light btn-sm"><a href="calendar.php?year=<?=$nextYear;?>&month=<?=$nextMonth;?>">下一個月</a></button>
 </div>
 
-<hr>
+<?php
+echo "<br>";
+?>
 
 <table>
     <thead>
@@ -202,8 +213,14 @@ $getDate= date("Y年m月d日");
     </thead>
     <?php
 $event=[
+    '1-1'=>'元旦',
+    '2-14'=>'情人節',
+    '3-8'=>'婦女節',
+    '4-1'=>'愚人節',
     '8-8'=>'父親節',
+    '9-28'=>'教師節',
     '10-10'=>'雙十節',
+    '10-30'=>'萬聖節',
     '12-25'=>'聖誕節',
     '12-31'=>'跨年'
 ];
@@ -225,8 +242,9 @@ for($i=0; $i<6;$i++){
         echo $date;
         if(!empty($event[$thisMonth.'-'.$date])){
             echo "<br>" ;
+            echo "<div class='mark'>";
             echo $event[$thisMonth.'-'.$date];
-
+            echo "</div>";
          };
         echo "</td>";
     }
