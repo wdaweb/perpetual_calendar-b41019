@@ -73,7 +73,7 @@
 </head>
 <body>
 <div class="bigcontainer">
-<h3>月曆製作</h3>
+<h3 class='text-center'>月曆製作</h3>
 
 <?php
 if(isset($_GET['month'])){
@@ -125,8 +125,10 @@ if(isset($_GET['year'])){
 // }
 
 
-switch($thisMonth>=12){
-    case"a":
+/*switch 中不能放判斷式...請再熟悉switch..case的用法  mack
+
+switch($thisMonth>=12){  ==> $thisMonth>=12 的結果只有true或false 不會得到 'a'  mack
+    case"a":   ==> case 後要加一個空白才能接要判斷的值 mack
     $nextMonth=1;
     $nextYear=$thisYear+1;
     break;
@@ -143,8 +145,45 @@ switch($thisMonth<=1){
     default:
     $prevMonth=$thisMonth-1;
     $prevYear=$thisYear;
+} */
+/**
+ * 判斷下一個月和上一個月的流程
+ * 1.先確認目前的年份和月份 比如這個月是11月
+ * 2.計算上一個月和下一個月的值
+ *      *上一個月的值 = 這個月的值-1 比如 11-1 => 10
+ *      *下一個月的值 = 這個月的值+1 比如 11+1 => 12
+ * 3.判斷計算出來的上一個月和下一個月的值是否在0~12之間
+ *      if(上一個月的值小於1){
+ *          表示上一個月應該是去年的12月
+ *          因此年份要減1
+ *          而月份要設定為12   
+ *       }
+ * 
+ *      if(下一個月的值大於12){
+ *          表示下一個月應該是明年的1月
+ *          因此年份要加1
+ *          而月份要設為1
+ *      }
+ * 4.將以上的流程寫成程式
+ * mack
+ */
+
+//先計算上一個月和下一個月的值，並先假設上一個月和下一個月的年份都是今年 mack
+$prevMonth=$thisMonth-1;
+$prevYear=$thisYear;
+$nextMonth=$thisMonth+1;
+$nextYear=$thisYear;
+
+//判斷計算出來的上一個月和下一個月的值是否在0~12之間  mack
+if($prevMonth<1){
+    $prevYear=$thisYear-1;
+    $prevMonth=12;
 }
 
+if($nextMonth>12){
+    $nextYear=$thisYear+1;
+    $nextMonth=1;
+}
 
 
 // if(isset($_GET['month']) && isset($_GET['year'])){
@@ -181,7 +220,7 @@ $getDate= date("Y年m月d日");
 
 
 ?>
-<div>
+<div class="text-center">
 <span  class="today">今天是<?=$getDate;?></span>
 </div>
 
@@ -190,9 +229,9 @@ echo "<br>";
 ?>
 
 <div class='justify-content-between d-flex m-auto' style="width:750px">
-<button type="button" class="btn btn-light btn-sm"><a href="calendar.php?year=<?=$prevYear;?>&month=<?=$prevMonth;?>">上一個月</a></button>
+<button type="button" class="btn btn-light btn-sm"><a href="index.php?year=<?=$prevYear;?>&month=<?=$prevMonth;?>">上一個月</a></button>
 <span  class="now"><?=$thisYear;?>年<?=$thisMonth;?>月</span>
-<button type="button" class="btn btn-light btn-sm"><a href="calendar.php?year=<?=$nextYear;?>&month=<?=$nextMonth;?>">下一個月</a></button>
+<button type="button" class="btn btn-light btn-sm"><a href="index.php?year=<?=$nextYear;?>&month=<?=$nextMonth;?>">下一個月</a></button>
 </div>
 
 <?php
